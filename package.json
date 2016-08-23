@@ -1,0 +1,16 @@
+{
+  "name": "find",
+  "version": "1.0.0",
+  "description": "",
+  "main": "find.js",
+  "scripts": {
+    "test": "mocha test/*test.js",
+    "test-watch": "mocha -w test/*test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "expect": "^1.20.2",
+    "mocha": "^3.0.2"
+  }
+}
