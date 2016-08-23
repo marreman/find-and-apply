@@ -169,5 +169,13 @@ describe("replace()", () => {
       }
     })
   })
+
+  describe("faulty function arguments", () => {
+    it("should throw if not given a function as its third argument", () => {
+      expect(() => {
+        replace({}, "", undefined)
+      }).toThrow()
+    })
+  })
 })
 
