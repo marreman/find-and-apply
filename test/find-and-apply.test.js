@@ -3,6 +3,7 @@ const { findAndApply, isObject } = require("../src/find-and-apply")
 const testData = require("./test-json-data")
 
 describe("findAndApply()", () => {
+
   it("replace the value of name if found", () => {
     const data = {
       reference: 123,
@@ -158,6 +159,26 @@ describe("findAndApply()", () => {
             name: "changed"
           }
         ]
+      }
+    })
+  })
+
+  it("should be blazlin fast", () => {
+    const data = {}
+
+    for (var i = 0; i < 10000; i++) {
+      data[i] = {}
+      var nested = data[i]
+
+      for (var j = 0; j < 100; j++) {
+        nested[j] = {}
+        nested = nested[j]
+      }
+    }
+
+    // Only tests the speed
+    const actual = findAndApply(data, c => c.reference == "dummy", obj => {
+      return {
       }
     })
   })

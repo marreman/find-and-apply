@@ -10,22 +10,40 @@ function findAndApply(obj, filter, transform) {
   assert(filter instanceof Function, "Second argument must be a function that is used to filter what you want")
   assert(transform instanceof Function, "Third argument must be a function that transform the objects that is filtered")
 
-  if (filter(obj)) {
-    return transform(obj)
-  }
+  var toVisit = []
+  var toReturn
 
   if (isArray(obj)) {
-    return obj.map(el => findAndApply(el, filter, transform))
+    toReturn = obj.map(el => testAndQueue(el, filter, toVisit, transform))
+  } else {
+    toReturn = testAndQueue(obj, filter, toVisit, transform)
   }
 
-  if (isObject(obj)) {
-    for (const key in obj) {
-      obj[key] = findAndApply(obj[key], filter, transform)
+  while (toVisit.length > 0) {
+    var visiting = toVisit.pop()
+
+    if (isObject(visiting)) {
+      for (const key in visiting) {
+        var nested = visiting[key]
+
+        if (isArray(nested)) {
+          visiting[key] = nested.map(el => testAndQueue(el, filter, toVisit, transform))
+        } else {
+          visiting[key] = testAndQueue(nested, filter, toVisit, transform)
+        }
+      }
     }
-
-    return obj
   }
 
+  return toReturn
+}
+
+function testAndQueue(obj, filter, arr, transform) {
+  if (filter(obj)) {
+    obj = transform(obj)
+  }
+
+  arr.push(obj)
   return obj
 }
 

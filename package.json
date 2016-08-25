@@ -9,7 +9,7 @@
   "main": "dist/find-and-apply.js",
   "scripts": {
     "build": "babel src --presets babel-preset-es2015 --out-dir dist",
-    "test": "mocha test/*test.js",
+    "test": "mocha test/*test.js -t 0",
     "test-watch": "mocha -w test/*test.js",
     "prepublish": "npm run build"
   },
