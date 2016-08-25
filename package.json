@@ -1,13 +1,13 @@
 {
-  "name": "search-replace",
+  "name": "find-and-apply",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/replace.js",
+  "main": "lib/find-and-apply.js",
   "scripts": {
     "test": "mocha test/*test.js",
     "test-watch": "mocha -w test/*test.js"
   },
-  "author": "",
+  "author": "Martin Liberg",
   "license": "ISC",
   "devDependencies": {
     "expect": "^1.20.2",
