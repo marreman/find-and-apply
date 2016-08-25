@@ -2,7 +2,7 @@
   "name": "search-replace",
   "version": "1.0.0",
   "description": "",
-  "main": "find.js",
+  "main": "lib/replace.js",
   "scripts": {
     "test": "mocha test/*test.js",
     "test-watch": "mocha -w test/*test.js"
