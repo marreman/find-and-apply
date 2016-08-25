@@ -1,5 +1,5 @@
 const expect = require("expect")
-const replace = require("../lib/search-replace")
+const replace = require("../lib/find-and-apply")
 const mockData = require("./mock-data")
 
 describe("replace()", () => {
