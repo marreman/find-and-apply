@@ -1,15 +1,15 @@
 const expect = require("expect")
-const replace = require("../lib/find-and-apply")
+const findAndApply = require("../lib/find-and-apply")
 const mockData = require("./mock-data")
 
-describe("replace()", () => {
+describe("findAndApply()", () => {
   it("replace the value of name if found", () => {
     const data = {
       reference: 123,
       name: "unchanged"
     }
 
-    const actual = replace(data, 123, obj => {
+    const actual = findAndApply(data, 123, obj => {
       return {
         reference: obj.reference,
         name: "changed"
@@ -28,7 +28,7 @@ describe("replace()", () => {
       name: "unchanged"
     }
 
-    const actual = replace(data, 12, obj => {
+    const actual = findAndApply(data, 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
@@ -45,7 +45,7 @@ describe("replace()", () => {
     }
     const data = { a: a }
 
-    replace(data, 123, obj => {
+    findAndApply(data, 123, obj => {
       expect(obj).toNotBe(a)
     })
 
@@ -60,7 +60,7 @@ describe("replace()", () => {
       name: "unchanged"
     }]
 
-    const actual = replace(data, 12, obj => {
+    const actual = findAndApply(data, 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
@@ -77,11 +77,11 @@ describe("replace()", () => {
   })
 
   it("should just return if given a string", () => {
-    expect(replace("foo", 12, () => {})).toEqual("foo")
+    expect(findAndApply("foo", 12, () => {})).toEqual("foo")
   })
 
   it("should just return if given a number", () => {
-    expect(replace(1, 12, () => {})).toEqual(1)
+    expect(findAndApply(1, 12, () => {})).toEqual(1)
   })
 
   it("should work nested objects", () => {
@@ -96,7 +96,7 @@ describe("replace()", () => {
       }
     }
 
-    const actual = replace(data, 12, obj => {
+    const actual = findAndApply(data, 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
@@ -117,7 +117,7 @@ describe("replace()", () => {
 
   it("should work on real data", () => {
     const ref = "a2ff2604-e330-4e4d-abb1-803f38a90d6e"
-    const actual = replace(mockData, ref, obj => {
+    const actual = findAndApply(mockData, ref, obj => {
       return {
         reference: obj.reference,
         text: "foo"
@@ -145,7 +145,7 @@ describe("replace()", () => {
       }
     }
 
-    const actual = replace(data, 12, obj => {
+    const actual = findAndApply(data, 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
@@ -173,7 +173,7 @@ describe("replace()", () => {
   describe("faulty function arguments", () => {
     it("should throw if not given a function as its third argument", () => {
       expect(() => {
-        replace({}, "", undefined)
+        findAndApply({}, "", undefined)
       }).toThrow()
     })
   })
