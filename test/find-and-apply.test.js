@@ -1,6 +1,6 @@
 const expect = require("expect")
 const { findAndApply, isObject } = require("../lib/find-and-apply")
-const mockData = require("./mock-data")
+const testData = require("./test-json-data")
 
 describe("findAndApply()", () => {
   it("replace the value of name if found", () => {
@@ -103,8 +103,8 @@ describe("findAndApply()", () => {
   })
 
   it("should work on real data", () => {
-    const ref = "a2ff2604-e330-4e4d-abb1-803f38a90d6e"
-    const actual = findAndApply(mockData, c => {
+    const ref = "replace-me-now-pls"
+    const actual = findAndApply(testData, c => {
       return isObject(c) && c.reference === ref
     }, obj => {
       return {
@@ -113,7 +113,10 @@ describe("findAndApply()", () => {
       }
     })
 
-    expect(actual.container.sections[0].elements.title.content.text).toEqual("foo")
+    expect(actual[1].friends[0]).toEqual({
+      reference: "replace-me-now-pls",
+      text: "foo"
+    })
   })
 
   it("should work deep complex json structures", () => {
