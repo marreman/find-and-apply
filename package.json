@@ -1,6 +1,6 @@
 {
   "name": "find-and-apply",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Recursively search any json structure and make changes at a certain leaf",
   "repository": {
     "type": "git",
