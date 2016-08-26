@@ -162,7 +162,13 @@ describe("findAndApply()", () => {
   describe("faulty function arguments", () => {
     it("should throw if not given a function as its third argument", () => {
       expect(() => {
-        findAndApply({}, "", undefined)
+        findAndApply({}, () => {}, undefined)
+      }).toThrow()
+    })
+
+    it("should throw if not given a function as its second argument", () => {
+      expect(() => {
+        findAndApply({}, undefined, () => {})
       }).toThrow()
     })
   })
