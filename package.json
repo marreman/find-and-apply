@@ -2,6 +2,10 @@
   "name": "find-and-apply",
   "version": "1.0.0",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/marreman/find-and-apply.git"
+  },
   "main": "lib/find-and-apply.js",
   "scripts": {
     "test": "mocha test/*test.js",
