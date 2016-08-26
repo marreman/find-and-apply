@@ -119,6 +119,39 @@ describe("findAndApply()", () => {
     })
   })
 
+  it("should work when there's multiple hits in a nested object", () => {
+    const data = {
+      id: 123,
+      foo: {
+        text: "bar",
+        id: 123
+      },
+      bar: {
+        id: 123
+      }
+    }
+
+    const actual = findAndApply(data, c => c.id === 123, obj => {
+      return Object.assign(obj, {
+        hit: "me"
+      })
+    })
+
+    expect(actual).toEqual({
+      id: 123,
+      hit: "me",
+      foo: {
+        text: "bar",
+        id: 123,
+        hit: "me"
+      },
+      bar: {
+        id: 123,
+        hit: "me"
+      }
+    })
+  })
+
   it("should work deep complex json structures", () => {
     const data = {
       a: {

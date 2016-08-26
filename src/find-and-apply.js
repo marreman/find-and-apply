@@ -11,7 +11,7 @@ function findAndApply(obj, filter, transform) {
   assert(transform instanceof Function, "Third argument must be a function that transform the objects that is filtered")
 
   if (filter(obj)) {
-    return transform(obj)
+    obj = transform(obj)
   }
 
   if (isArray(obj)) {
