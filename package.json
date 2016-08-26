@@ -1,19 +1,23 @@
 {
   "name": "find-and-apply",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Recursively search any json structure and make changes at a certain leaf",
   "repository": {
     "type": "git",
     "url": "https://github.com/marreman/find-and-apply.git"
   },
-  "main": "lib/find-and-apply.js",
+  "main": "dist/find-and-apply.js",
   "scripts": {
+    "build": "babel src --presets babel-preset-es2015 --out-dir dist",
     "test": "mocha test/*test.js",
-    "test-watch": "mocha -w test/*test.js"
+    "test-watch": "mocha -w test/*test.js",
+    "prepublish": "npm run build"
   },
   "author": "Martin Liberg",
   "license": "ISC",
   "devDependencies": {
+    "babel-cli": "^6.14.0",
+    "babel-preset-es2015": "^6.14.0",
     "expect": "^1.20.2",
     "mocha": "^3.0.2"
   }

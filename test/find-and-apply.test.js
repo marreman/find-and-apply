@@ -1,5 +1,5 @@
 const expect = require("expect")
-const { findAndApply, isObject } = require("../lib/find-and-apply")
+const { findAndApply, isObject } = require("../src/find-and-apply")
 const testData = require("./test-json-data")
 
 describe("findAndApply()", () => {
