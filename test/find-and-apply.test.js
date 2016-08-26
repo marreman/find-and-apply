@@ -1,5 +1,5 @@
 const expect = require("expect")
-const findAndApply = require("../lib/find-and-apply")
+const { findAndApply, isObject } = require("../lib/find-and-apply")
 const mockData = require("./mock-data")
 
 describe("findAndApply()", () => {
@@ -9,7 +9,7 @@ describe("findAndApply()", () => {
       name: "unchanged"
     }
 
-    const actual = findAndApply(data, 123, obj => {
+    const actual = findAndApply(data, c => c.reference === 123, obj => {
       return {
         reference: obj.reference,
         name: "changed"
@@ -28,7 +28,7 @@ describe("findAndApply()", () => {
       name: "unchanged"
     }
 
-    const actual = findAndApply(data, 12, obj => {
+    const actual = findAndApply(data, c => c.reference === 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
@@ -36,19 +36,6 @@ describe("findAndApply()", () => {
     })
 
     expect(actual.name).toEqual("unchanged")
-  })
-
-  it("should return a copy of the found object", () => {
-    const a = {
-      reference: 123,
-      name: "unchanged"
-    }
-    const data = { a: a }
-
-    findAndApply(data, 123, obj => {
-      expect(obj).toNotBe(a)
-    })
-
   })
 
   it("should work on arrays", () => {
@@ -60,7 +47,7 @@ describe("findAndApply()", () => {
       name: "unchanged"
     }]
 
-    const actual = findAndApply(data, 12, obj => {
+    const actual = findAndApply(data, c => c.reference === 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
@@ -77,11 +64,11 @@ describe("findAndApply()", () => {
   })
 
   it("should just return if given a string", () => {
-    expect(findAndApply("foo", 12, () => {})).toEqual("foo")
+    expect(findAndApply("foo", c => null, () => {})).toEqual("foo")
   })
 
   it("should just return if given a number", () => {
-    expect(findAndApply(1, 12, () => {})).toEqual(1)
+    expect(findAndApply(1, _ => null, () => {})).toEqual(1)
   })
 
   it("should work nested objects", () => {
@@ -96,7 +83,7 @@ describe("findAndApply()", () => {
       }
     }
 
-    const actual = findAndApply(data, 12, obj => {
+    const actual = findAndApply(data, c => c.reference === 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
@@ -117,7 +104,9 @@ describe("findAndApply()", () => {
 
   it("should work on real data", () => {
     const ref = "a2ff2604-e330-4e4d-abb1-803f38a90d6e"
-    const actual = findAndApply(mockData, ref, obj => {
+    const actual = findAndApply(mockData, c => {
+      return isObject(c) && c.reference === ref
+    }, obj => {
       return {
         reference: obj.reference,
         text: "foo"
@@ -145,7 +134,7 @@ describe("findAndApply()", () => {
       }
     }
 
-    const actual = findAndApply(data, 12, obj => {
+    const actual = findAndApply(data, c => c.reference === 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
