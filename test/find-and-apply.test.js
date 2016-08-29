@@ -9,12 +9,14 @@ describe("findAndApply()", () => {
       name: "unchanged"
     }
 
-    const actual = findAndApply(data, c => c.reference === 123, obj => {
+    const replaceByReference = findAndApply(c => c.reference === 123, obj => {
       return {
         reference: obj.reference,
         name: "changed"
       }
     })
+
+    const actual = replaceByReference(data)
 
     expect(actual).toEqual({
       reference: 123,
@@ -28,12 +30,12 @@ describe("findAndApply()", () => {
       name: "unchanged"
     }
 
-    const actual = findAndApply(data, c => c.reference === 12, obj => {
+    const actual = findAndApply(c => c.reference === 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
       }
-    })
+    }, data)
 
     expect(actual.name).toEqual("unchanged")
   })
@@ -47,12 +49,12 @@ describe("findAndApply()", () => {
       name: "unchanged"
     }]
 
-    const actual = findAndApply(data, c => c.reference === 12, obj => {
+    const actual = findAndApply(c => c.reference === 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
       }
-    })
+    }, data)
 
     expect(actual).toEqual([{
       reference: 123,
@@ -64,11 +66,11 @@ describe("findAndApply()", () => {
   })
 
   it("should just return if given a string", () => {
-    expect(findAndApply("foo", c => null, () => {})).toEqual("foo")
+    expect(findAndApply(c => null, () => {}, "foo")).toEqual("foo")
   })
 
   it("should just return if given a number", () => {
-    expect(findAndApply(1, _ => null, () => {})).toEqual(1)
+    expect(findAndApply(_ => null, () => {}, 1)).toEqual(1)
   })
 
   it("should work nested objects", () => {
@@ -83,12 +85,12 @@ describe("findAndApply()", () => {
       }
     }
 
-    const actual = findAndApply(data, c => c.reference === 12, obj => {
+    const actual = findAndApply(c => c.reference === 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
       }
-    })
+    }, data)
 
     expect(actual).toEqual({
       a: {
@@ -104,14 +106,14 @@ describe("findAndApply()", () => {
 
   it("should work on real data", () => {
     const ref = "replace-me-now-pls"
-    const actual = findAndApply(testData, c => {
+    const actual = findAndApply(c => {
       return isObject(c) && c.reference === ref
     }, obj => {
       return {
         reference: obj.reference,
         text: "foo"
       }
-    })
+    }, testData)
 
     expect(actual[1].friends[0]).toEqual({
       reference: "replace-me-now-pls",
@@ -131,11 +133,11 @@ describe("findAndApply()", () => {
       }
     }
 
-    const actual = findAndApply(data, c => c.id === 123, obj => {
+    const actual = findAndApply(c => c.id === 123, obj => {
       return Object.assign(obj, {
         hit: "me"
       })
-    })
+    }, data)
 
     expect(actual).toEqual({
       id: 123,
@@ -170,12 +172,12 @@ describe("findAndApply()", () => {
       }
     }
 
-    const actual = findAndApply(data, c => c.reference === 12, obj => {
+    const actual = findAndApply(c => c.reference === 12, obj => {
       return {
         reference: obj.reference,
         name: "changed"
       }
-    })
+    }, data)
 
     expect(actual).toEqual({
       a: {

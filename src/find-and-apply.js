@@ -1,4 +1,5 @@
 const assert = require("assert")
+const _ = require("lodash/fp")
 
 const isObject = candidate =>
   Object.prototype.toString.call(candidate) === "[object Object]"
@@ -6,7 +7,7 @@ const isObject = candidate =>
 const isArray = candidate =>
   candidate instanceof Array
 
-function findAndApply(obj, filter, transform) {
+const findAndApply = _.curry((filter, transform, obj) => {
   assert(filter instanceof Function, "Second argument must be a function that is used to filter what you want")
   assert(transform instanceof Function, "Third argument must be a function that transform the objects that is filtered")
 
@@ -15,19 +16,19 @@ function findAndApply(obj, filter, transform) {
   }
 
   if (isArray(obj)) {
-    return obj.map(el => findAndApply(el, filter, transform))
+    return obj.map(el => findAndApply(filter, transform, el))
   }
 
   if (isObject(obj)) {
     for (const key in obj) {
-      obj[key] = findAndApply(obj[key], filter, transform)
+      obj[key] = findAndApply(filter, transform, obj[key])
     }
 
     return obj
   }
 
   return obj
-}
+})
 
 module.exports = {
   findAndApply,
